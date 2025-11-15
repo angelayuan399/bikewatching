@@ -13,3 +13,24 @@ const map = new mapboxgl.Map({
   minZoom: 5, // Minimum allowed zoom
   maxZoom: 18, // Maximum allowed zoom
 });
+
+// Wait for the map to load before adding data
+map.on('load', async () => {
+  // Add Boston bike lanes data source
+  map.addSource('boston_route', {
+    type: 'geojson',
+    data: 'https://bostonopendata-boston.opendata.arcgis.com/datasets/boston::existing-bike-network-2022.geojson',
+  });
+
+  // Visualize Boston bike lanes as green lines
+  map.addLayer({
+    id: 'bike-lanes',
+    type: 'line',
+    source: 'boston_route',
+    paint: {
+      'line-color': '#32D400',  // Bright green using hex code
+      'line-width': 5,          // Thickness of lines
+      'line-opacity': 0.6,      // 60% opacity
+    },
+  });
+});
