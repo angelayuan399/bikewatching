@@ -50,16 +50,19 @@ body {
   height: 100%;
   pointer-events: none; /* Allow map interaction through SVG */
 }
+#map svg circle,
+.legend > div {
+  --color-departures: steelblue;
+  --color-arrivals: darkorange;
 
-#map svg circle {
---color-departures: steelblue;
---color-arrivals: darkorange;
-
---color: color-mix(
+  --color: color-mix(
     in oklch,
     var(--color-departures) calc(100% * var(--departure-ratio)),
     var(--color-arrivals)
   );
+}
+
+#map svg circle {
 
   fill: var(--color);
 
@@ -70,4 +73,31 @@ body {
 
 #map svg circle:hover {
   fill-opacity: 0.8;
+}
+
+.legend {
+  display: flex;
+  gap: 1px;              /* tiny gap between blocks */
+  margin-block: 0.5rem;  /* space above and below legend */
+  font-size: 0.8rem;
+}
+
+.legend > div {
+  flex: 1;                     /* equal width blocks */
+  padding: 0.4rem 0.9rem;      /* more horizontal than vertical */
+  background-color: var(--color);
+  color: white;                /* change if your colors are light */
+}
+
+/* Optional: different text alignment for each block */
+.legend > div:first-child {
+  text-align: left;
+}
+
+.legend > div:nth-child(2) {
+  text-align: center;
+}
+
+.legend > div:last-child {
+  text-align: right;
 }
