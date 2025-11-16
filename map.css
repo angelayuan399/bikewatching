@@ -52,12 +52,23 @@ body {
 }
 
 #map svg circle {
-  pointer-events: auto; /* Allow tooltips on circles */
-  cursor: pointer;
-  transition: fill-opacity 0.2s ease; /* Smooth opacity transition */
+  /* === Add this part === */
+  --color-departures: steelblue;
+  --color-arrivals: darkorange;
 
+  --color: color-mix(
+    in oklch,
+    var(--color-departures) calc(100% * var(--departure-ratio)),
+    var(--color-arrivals)
+  );
+  fill: var(--color);
+  /* ====================== */
+
+  pointer-events: auto;
+  cursor: pointer;
+  transition: fill-opacity 0.2s ease;
 }
 
 #map svg circle:hover {
-  fill-opacity: 0.8; /* Increase opacity on hover */
+  fill-opacity: 0.8;
 }

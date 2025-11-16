@@ -217,14 +217,7 @@ map.on('load', async () => {
       updateScatterPlot(timeFilter);
     }
 
-    function updateScatterPlot(timeFilter) {
-  // previus code ommitted for brevity
-    circles
-    // previus code ommitted for brevity
-    .style('--departure-ratio', (d) =>
-      stationFlow(d.departures / d.totalTraffic),
-    );
-}
+ 
 
     timeSlider.addEventListener('input', updateTimeDisplay);
     updateTimeDisplay();
