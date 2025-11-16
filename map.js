@@ -1,3 +1,5 @@
+  // Quantize scale for traffic flow
+  const stationFlow = d3.scaleQuantize().domain([0, 1]).range([0, 0.5, 1]);
 // Helper to format time from minutes
 function formatTime(minutes) {
   const date = new Date(0, 0, 0, 0, minutes);
@@ -143,10 +145,10 @@ map.on('load', async () => {
       .enter()
       .append('circle')
       .attr('r', (d) => radiusScale(d.totalTraffic))
-      .attr('fill', 'steelblue')
       .attr('stroke', 'white')
       .attr('stroke-width', 1)
       .attr('fill-opacity', 0.6)
+      .style('--departure-ratio', (d) => stationFlow(d.totalTraffic ? d.departures / d.totalTraffic : 0))
       .each(function (d) {
         d3.select(this)
           .append('title')
@@ -181,16 +183,16 @@ map.on('load', async () => {
       const filteredStations = computeStationTraffic(stations, timeFilter);
       // Adjust radius scale range for filtering
       timeFilter === -1 ? radiusScale.range([0, 25]) : radiusScale.range([3, 50]);
-      // Update circles with key
+      // Update circles with key and color
       circles = svg
         .selectAll('circle')
         .data(filteredStations, (d) => d.short_name)
         .join('circle')
         .attr('r', (d) => radiusScale(d.totalTraffic))
-        .attr('fill', 'steelblue')
         .attr('stroke', 'white')
         .attr('stroke-width', 1)
         .attr('fill-opacity', 0.6)
+        .style('--departure-ratio', (d) => stationFlow(d.totalTraffic ? d.departures / d.totalTraffic : 0))
         .each(function (d) {
           d3.select(this)
             .selectAll('title').remove();
@@ -214,6 +216,15 @@ map.on('load', async () => {
       }
       updateScatterPlot(timeFilter);
     }
+
+    function updateScatterPlot(timeFilter) {
+  // previus code ommitted for brevity
+    circles
+    // previus code ommitted for brevity
+    .style('--departure-ratio', (d) =>
+      stationFlow(d.departures / d.totalTraffic),
+    );
+}
 
     timeSlider.addEventListener('input', updateTimeDisplay);
     updateTimeDisplay();

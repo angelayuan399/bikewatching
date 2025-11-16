@@ -55,6 +55,14 @@ body {
   pointer-events: auto; /* Allow tooltips on circles */
   cursor: pointer;
   transition: fill-opacity 0.2s ease; /* Smooth opacity transition */
+--color-departures: steelblue;
+--color-arrivals: darkorange;
+--color: color-mix(
+  in oklch,
+  var(--color-departures) calc(100% * var(--departure-ratio)),
+  var(--color-arrivals)
+);
+fill: var(--color);
 }
 
 #map svg circle:hover {
